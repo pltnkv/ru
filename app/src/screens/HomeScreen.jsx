@@ -4,6 +4,7 @@ import { IslandMap } from '../components/Map/IslandMap';
 import { Cat } from '../components/Cat/Cat';
 import { useSpeech } from '../hooks/useSpeech';
 import { LEVELS } from '../data/levels';
+import { PictogramsDebug } from '../components/ui/PictogramsDebug';
 
 const ALL_LEVEL_IDS = LEVELS.map(l => l.id);
 
@@ -20,6 +21,7 @@ export function HomeScreen({ progress, onSelectLevel, debug, onResetProgress }) 
     return () => clearTimeout(timer);
   }, []);
 
+  const [showPicDebug, setShowPicDebug] = useState(false);
   const unlockedLevels = debug ? ALL_LEVEL_IDS : progress.unlockedLevels;
 
   return (
@@ -47,8 +49,16 @@ export function HomeScreen({ progress, onSelectLevel, debug, onResetProgress }) 
           >
             🗑 Стереть прогресс
           </motion.button>
+          <motion.button
+            style={styles.picDebugBtn}
+            onClick={() => setShowPicDebug(true)}
+            whileTap={{ scale: 0.93 }}
+          >
+            🖼 Картинки
+          </motion.button>
         </div>
       )}
+      {showPicDebug && <PictogramsDebug onClose={() => setShowPicDebug(false)} />}
 
       <div style={styles.mapArea}>
         <IslandMap
@@ -100,6 +110,16 @@ const styles = {
   },
   resetBtn: {
     background: '#FF6B6B',
+    border: 'none',
+    borderRadius: 12,
+    padding: '8px 18px',
+    fontSize: 14,
+    fontWeight: 700,
+    color: '#fff',
+    cursor: 'pointer',
+  },
+  picDebugBtn: {
+    background: '#6B8EFF',
     border: 'none',
     borderRadius: 12,
     padding: '8px 18px',
