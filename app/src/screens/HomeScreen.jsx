@@ -3,8 +3,11 @@ import { motion } from 'framer-motion';
 import { IslandMap } from '../components/Map/IslandMap';
 import { Cat } from '../components/Cat/Cat';
 import { useSpeech } from '../hooks/useSpeech';
+import { LEVELS } from '../data/levels';
 
-export function HomeScreen({ progress, onSelectLevel }) {
+const ALL_LEVEL_IDS = LEVELS.map(l => l.id);
+
+export function HomeScreen({ progress, onSelectLevel, debug, onResetProgress }) {
   const { sayWithName } = useSpeech();
   const [catState, setCatState] = useState('happy');
 
@@ -16,6 +19,8 @@ export function HomeScreen({ progress, onSelectLevel }) {
     }, 600);
     return () => clearTimeout(timer);
   }, []);
+
+  const unlockedLevels = debug ? ALL_LEVEL_IDS : progress.unlockedLevels;
 
   return (
     <div style={styles.screen}>
@@ -32,9 +37,22 @@ export function HomeScreen({ progress, onSelectLevel }) {
         </div>
       </div>
 
+      {debug && (
+        <div style={styles.debugBar}>
+          <span style={styles.debugBadge}>🛠 DEBUG</span>
+          <motion.button
+            style={styles.resetBtn}
+            onClick={onResetProgress}
+            whileTap={{ scale: 0.93 }}
+          >
+            🗑 Стереть прогресс
+          </motion.button>
+        </div>
+      )}
+
       <div style={styles.mapArea}>
         <IslandMap
-          unlockedLevels={progress.unlockedLevels}
+          unlockedLevels={unlockedLevels}
           levelStars={progress.levelStars}
           onSelectLevel={onSelectLevel}
         />
@@ -66,6 +84,30 @@ const styles = {
     fontFamily: 'sans-serif',
   },
   catArea: { flexShrink: 0 },
+  debugBar: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 12,
+    padding: '6px 24px',
+    background: 'rgba(0,0,0,0.06)',
+    flexShrink: 0,
+  },
+  debugBadge: {
+    fontSize: 13,
+    fontWeight: 700,
+    color: '#888',
+    fontFamily: 'monospace',
+  },
+  resetBtn: {
+    background: '#FF6B6B',
+    border: 'none',
+    borderRadius: 12,
+    padding: '8px 18px',
+    fontSize: 14,
+    fontWeight: 700,
+    color: '#fff',
+    cursor: 'pointer',
+  },
   mapArea: {
     flex: 1,
     padding: '0 24px 24px',

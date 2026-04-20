@@ -64,7 +64,7 @@ export function BallCatch({ exercise, onComplete }) {
 
   const handleTap = (ball) => {
     if (ball.isTarget) {
-      speak(ball.text);
+      speak(ball.text.toLowerCase());
       setCatState('happy');
       setSpeech('Ура! Правильно!');
       setPopped(ball.id);

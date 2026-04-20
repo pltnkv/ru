@@ -12,8 +12,10 @@ const SCREENS = {
   GAME: 'game',
 };
 
+const isDebug = new URLSearchParams(window.location.search).has('debug');
+
 export default function App() {
-  const { progress, setExerciseStars, completeLevel } = useProgress();
+  const { progress, setExerciseStars, completeLevel, resetProgress } = useProgress();
   const [screen, setScreen] = useState(SCREENS.HOME);
   const [selectedLevel, setSelectedLevel] = useState(null);
   const [selectedExercise, setSelectedExercise] = useState(null);
@@ -39,7 +41,12 @@ export default function App() {
       <AnimatePresence mode="wait">
         {screen === SCREENS.HOME && (
           <motion.div key="home" style={styles.fill} {...slide}>
-            <HomeScreen progress={progress} onSelectLevel={goLevel} />
+            <HomeScreen
+              progress={progress}
+              onSelectLevel={goLevel}
+              debug={isDebug}
+              onResetProgress={resetProgress}
+            />
           </motion.div>
         )}
         {screen === SCREENS.LEVEL && (

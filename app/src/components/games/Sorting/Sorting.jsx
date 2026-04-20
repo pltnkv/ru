@@ -32,7 +32,7 @@ export function Sorting({ exercise, onComplete }) {
     const correctBasket = current.includes(vowelA) ? 'A' : 'B';
     const isCorrect = basket === correctBasket;
 
-    speak(current);
+    speak(current.toLowerCase());
     setFlash(basket);
     setTimeout(() => setFlash(null), 500);
 

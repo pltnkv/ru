@@ -9,7 +9,7 @@ export function useSpeech() {
     if (!window.speechSynthesis) return;
     window.speechSynthesis.cancel();
 
-    const utterance = new SpeechSynthesisUtterance(text);
+    const utterance = new SpeechSynthesisUtterance(String(text).toLowerCase());
     utterance.lang = 'ru-RU';
     utterance.rate = options.rate ?? 0.85;
     utterance.pitch = options.pitch ?? 1.1;
