@@ -15,6 +15,7 @@ function PicCard({ word }) {
             src={url}
             alt={word}
             style={styles.img}
+            loading="lazy"
             onLoad={() => setStatus('ok')}
             onError={() => setStatus('error')}
           />

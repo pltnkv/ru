@@ -53,7 +53,10 @@ export function IslandMap({ unlockedLevels, levelStars, onSelectLevel }) {
             animate={{ scale: 1 }}
             transition={{ delay: index * 0.08, type: 'spring', stiffness: 280 }}
           >
-            <span style={styles.emoji}>{unlocked ? level.emoji : '🔒'}</span>
+            {unlocked
+              ? <span style={styles.emoji}>{level.emoji}</span>
+              : <span style={styles.lockIcon}>🔒</span>
+            }
             <span style={styles.levelNum}>{level.id}</span>
             {stars > 0 && (
               <span style={styles.stars}>
@@ -90,14 +93,17 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
     gap: 2,
-    padding: '12px 16px',
+    padding: '10px 14px',
     borderRadius: 20,
     border: '3px solid rgba(255,255,255,0.6)',
     cursor: 'pointer',
     minWidth: 70,
+    minHeight: 80,
   },
-  emoji: { fontSize: 32, lineHeight: 1 },
+  emoji: { fontSize: 32, lineHeight: 1, display: 'block', width: 36, height: 36, textAlign: 'center' },
+  lockIcon: { fontSize: 28, lineHeight: 1, display: 'block', width: 36, height: 36, textAlign: 'center' },
   levelNum: {
     fontSize: 14, fontWeight: 800, color: '#fff',
     textShadow: '0 1px 3px rgba(0,0,0,0.3)',

@@ -69,7 +69,7 @@ export const PICTOGRAM_IDS = {
 
 const BASE_URL = 'https://static.arasaac.org/pictograms';
 
-export function getPictogramUrl(word, size = 500) {
+export function getPictogramUrl(word, size = 300) {
   const id = PICTOGRAM_IDS[word?.toUpperCase()];
   if (!id) return null;
   return `${BASE_URL}/${id}/${id}_${size}.png`;
