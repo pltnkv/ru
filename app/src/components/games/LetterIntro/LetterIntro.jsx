@@ -18,7 +18,7 @@ export function LetterIntro({ exercise, level, onComplete }) {
   }, []);
 
   const handleTap = () => {
-    speakLetter(currentLetter);
+    speakLetter(`Буква: ${currentLetter}!`);
     setCatState('happy');
     setTimeout(() => setCatState('idle'), 1200);
 

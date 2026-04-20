@@ -9,13 +9,15 @@ function shuffle(arr) {
   return [...arr].sort(() => Math.random() - 0.5);
 }
 
-function WordPicture({ url, word, completed }) {
+function WordPicture({ url, word, completed, onTap }) {
   const [loaded, setLoaded] = useState(false);
   return (
-    <motion.div
+    <motion.button
       style={styles.pictureCard}
       animate={completed ? { scale: [1, 1.1, 1], borderColor: '#06D6A0' } : { borderColor: '#FFD166' }}
       transition={{ duration: 0.4 }}
+      onClick={onTap}
+      whileTap={{ scale: 0.93 }}
     >
       {url ? (
         <>
@@ -31,7 +33,8 @@ function WordPicture({ url, word, completed }) {
       ) : (
         <span style={{ fontSize: 56 }}>🖼️</span>
       )}
-    </motion.div>
+      <span style={styles.speakerIcon}>🔊</span>
+    </motion.button>
   );
 }
 
@@ -64,7 +67,7 @@ export function TrainBuild({ exercise, levelId, onComplete }) {
     if (syllable === expected) {
       const newSlots = [...slots];
       newSlots[slotIndex] = syllable;
-      setAvailable(av => av.filter(s => s !== syllable));
+      setAvailable(av => { const i = av.indexOf(syllable); return i === -1 ? av : [...av.slice(0, i), ...av.slice(i + 1)]; });
       setSlots(newSlots);
 
       if (newSlots.every(s => s !== null)) {
@@ -101,7 +104,7 @@ export function TrainBuild({ exercise, levelId, onComplete }) {
     <div style={styles.screen}>
       <div style={styles.topRow}>
         <Cat state={catState} size={70} speech={speech} />
-        <WordPicture url={pictogramUrl} word={currentWord.text} completed={completed} />
+        <WordPicture url={pictogramUrl} word={currentWord.text} completed={completed} onTap={() => speak(currentWord.text.toLowerCase())} />
       </div>
 
       {/* Train wagons */}
@@ -166,6 +169,7 @@ const styles = {
     gap: 20, width: '100%', flexShrink: 0,
   },
   pictureCard: {
+    position: 'relative',
     width: 120, height: 120,
     background: '#fff',
     borderRadius: 20,
@@ -175,6 +179,14 @@ const styles = {
     flexShrink: 0,
     overflow: 'hidden',
     padding: 8,
+    cursor: 'pointer',
+  },
+  speakerIcon: {
+    position: 'absolute',
+    bottom: 4, right: 6,
+    fontSize: 16,
+    opacity: 0.5,
+    pointerEvents: 'none',
   },
   trainArea: {
     display: 'flex', alignItems: 'center', gap: 8,

@@ -53,7 +53,7 @@ export function BallCatch({ exercise, onComplete }) {
     const target = roundQueue[r];
     setBalls(getRandomBalls(syllables, target));
     setTimeout(() => {
-      sayWithName(`{name}, поймай клубочек ${target}!`);
+      sayWithName(`{name}, поймай клубочек ${target.toLowerCase()}!`);
       setSpeech(`Поймай ${target}!`);
     }, 300);
   }, [roundQueue, syllables, sayWithName]);
